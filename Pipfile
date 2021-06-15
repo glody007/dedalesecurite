@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+gunicorn = "==19.7.1"
+flask-restplus = "*"
+python-dotenv = "*"
+flask = "==1.1.4"
+werkzeug = "==0.16.1"
+fastbook = "*"
+mongoengine = "*"
+flask-login = "*"
+geopy = "*"
+pytest = "*"
+pyjwt = "==1.4.2"
+flask-bcrypt = "*"
+
+[dev-packages]
+pytest = "*"
+bumpversion = "*"
+pytest-sugar = "*"
+pytest-cov = "*"
+
+[requires]
+python_version = "3.9"
