@@ -16,6 +16,7 @@ geopy = "*"
 pytest = "*"
 pyjwt = "==1.4.2"
 flask-bcrypt = "*"
+pytest-cov = "*"
 
 [dev-packages]
 pytest = "*"

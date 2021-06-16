@@ -1,7 +1,8 @@
 from flask import request
-from flask_restplus import Resource, abort, fields
+from flask_restplus import Resource, fields
+from .utils import abort_404
 from . import api_rest
-from ..models import  User as UserModel
+from ..services import UserService
 from .validation import *
 from .security import require_auth, AuthType
 from .resource_type import ResourceType
@@ -25,7 +26,7 @@ class UserList(Resource):
     @api_rest.marshal_with(user_list_fields)
     @api_rest.response(200, 'Success', user_list_fields)
     def get(self):
-        return {'users' : UserModel.objects()}, 200
+        return {'users' : UserService.get_list()}, 200
 
     @api_rest.doc(security='apiKey')
     @require_auth(type=AuthType.ADMIN)
@@ -35,8 +36,7 @@ class UserList(Resource):
     @api_rest.response(400, 'Validation Error')
     def post(self):
         try:
-            user = UserModel.from_user_info(request.json)
-            UserModel.insert(user)
+            user = UserService.insert(request.json)
             return {'result': 'success', 'user': {
                 'id': str(user.id),
                 'nom': user.nom,
@@ -53,9 +53,7 @@ class User(Resource):
     @api_rest.response(404, 'Ressource not found')
     @validate_ObjectId_or_404('user_id')
     def get(self, user_id):
-        user = UserModel.objects.with_id(user_id)
-        if user == None:
-            abort(404)
+        user = UserService.get_or(user_id, abort_404)
         return user, 200
 
     @api_rest.doc(security='apiKey')
@@ -67,11 +65,8 @@ class User(Resource):
     @api_rest.response(404, 'Ressource not found')
     @validate_ObjectId_or_404('user_id')
     def put(self, user_id):
-        user = UserModel.objects.with_id(user_id)
-        if user == None:
-            abort(404)
         try:
-            user.update_from_info(request.json)
+            UserService.update_or(user_id, request.json, abort_404)
         except:
             return error_email_and_phone_number, 400
         return {'result': 'success'}, 201
@@ -83,8 +78,5 @@ class User(Resource):
     @api_rest.response(404, 'Ressource not found')
     @validate_ObjectId_or_404('user_id')
     def delete(self, user_id):
-        user = UserModel.objects.with_id(user_id)
-        if user == None:
-            abort(404)
-        user.delete()
+        UserService.delete_or(user_id, abort_404)
         return {'result': 'success'}, 200

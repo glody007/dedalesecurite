@@ -2,7 +2,6 @@ import pytest
 from mongoengine import *
 from flask import current_app
 from mongoengine.connection import disconnect
-from app.models.produit import Produit
 from app.models.user import User
 from app.models import init_db
 from app import app
@@ -13,7 +12,6 @@ with app.app_context():
 
 @pytest.fixture
 def drop_all():
-    Produit.drop_collection()
     User.drop_collection()
 
 @pytest.fixture(scope="module")
@@ -41,11 +39,3 @@ def insert_user(exemple_user_data):
 
 def user_count():
     return User.objects.count()
-
-def insert_produit(exemple_produit_data):
-    produit = Produit.product_from_dict(exemple_produit_data)
-    Produit.insert(produit)
-    return produit
-
-def produit_count():
-    return Produit.objects.count()

@@ -1,7 +1,7 @@
 from mongoengine import *
 import os
 from .plan import *
-from .produit import *
+from .template import *
 from .user import *
 
 def init_db():

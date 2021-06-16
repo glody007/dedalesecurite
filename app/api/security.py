@@ -3,7 +3,7 @@ from functools import wraps
 from flask import request
 from flask_restplus import abort
 from bson.objectid import ObjectId
-from ..models import User, UserType, Produit
+from ..models import User, UserType, Template
 from .validation import error_invalid_auth_token
 from .resource_type import ResourceType
 
@@ -41,10 +41,10 @@ def is_authorized(user_id, auth_type, res_type="", id_name=""):
         if res_type == ResourceType.USER:
             return str(user.id) == id
         else:
-            produit = Produit.objects.with_id(id)
-            if produit == None:
+            template = Template.objects.with_id(id)
+            if template == None:
                 abort(404)
-            return str(user.id) == produit.vendeur_id
+            return str(user.id) == template.creator_id
 
 
 

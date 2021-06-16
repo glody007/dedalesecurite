@@ -1,3 +1,3 @@
 class ResourceType:
-    PRODUIT = "produit"
+    TEMPLATE = "template"
     USER = "user"

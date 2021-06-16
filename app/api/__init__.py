@@ -17,6 +17,5 @@ def add_header(response):
 
 
 # Import resources to ensure view is registered
-from .produit import *
 from .user import *
 from .auth import *
