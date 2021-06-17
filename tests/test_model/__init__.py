@@ -37,6 +37,14 @@ def insert_user(exemple_user_data):
     User.insert(user)
     return user
 
+def insert_template(exemple_template_data):
+    template = Template(nom=exemple_template_data['nom'],
+                        document_model=exemple_template_data['document_model'],
+                        datas_model=exemple_template_data['datas_model'],
+                        creator_id=exemple_template_data['creator_id'])
+    template.save()
+    return template
+
 @pytest.fixture(scope="module")
 def user(exemple_user_data):
     return User(nom = exemple_user_data["nom"],
@@ -52,3 +60,6 @@ def template(exemple_template_data):
 
 def user_count():
     return User.objects.count()
+
+def template_count():
+    return Template.objects.count()

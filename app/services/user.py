@@ -1,5 +1,6 @@
 from ..models import User as UserModel
 from ..models import PlanType
+from .template_service import TemplateService
 
 class ErrorUser(Exception):
     """Base class for exceptions in this module."""
@@ -38,6 +39,16 @@ class UserService:
         return user
 
     @staticmethod
+    def add_template(template_info, creator_id):
+        template_info['creator_id'] = creator_id
+        template = TemplateService.create(template_info)
+        template.save()
+        user = UserService.get(creator_id)
+        user.templates.append(template)
+        user.save()
+        return template
+
+    @staticmethod
     def get(id):
         return UserModel.objects.with_id(id)
 
@@ -71,6 +82,10 @@ class UserService:
     @staticmethod
     def count():
         return UserModel.objects.count()
+
+    @staticmethod
+    def get_id(token):
+        return UserModel.decode_auth_token(token)
 
     @staticmethod
     def login(login_info):

@@ -19,3 +19,4 @@ def add_header(response):
 # Import resources to ensure view is registered
 from .user import *
 from .auth import *
+from .template import *
