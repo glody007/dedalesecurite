@@ -1,5 +1,5 @@
 import pytest
-from app.services.user import UserService
+from app.services.user import *
 from app.models.user import UserType
 from .. import (drop_all,
                 exemple_user_data)
@@ -19,15 +19,23 @@ def test_add(drop_all, exemple_user_data):
 
 def test_register(drop_all, exemple_user_data):
     assert UserService.count() == 0
-    user = UserService.register(exemple_user_data)
+    user, auth_token = UserService.register(exemple_user_data)
+    assert auth_token is not None
     assert UserService.count() == 1
     assert user.type == UserType.ENREGISTRER
     assert len(user.password_hash) > 10
+    with pytest.raises(UserWithSameEmailError):
+        UserService.register({'nom':'root', 'phone_number':'0997766555555', 'email':exemple_user_data['email']})
+    with pytest.raises(UserWithSameNumberError):
+        UserService.register({'nom':'root', 'phone_number':exemple_user_data['phone_number'], 'email':'hack@hack.com'})
+
 
 def test_register_admin(drop_all, exemple_user_data):
     assert UserService.count() == 0
-    user = UserService.register_admin(exemple_user_data)
+    user, auth_token = UserService.register_admin(exemple_user_data)
     assert UserService.count() == 1
     assert user.type == UserType.ADMIN
-    user = UserService.register_admin(exemple_user_data)
-    assert UserService.count() == 1
+    with pytest.raises(UserWithSameEmailError):
+        UserService.register_admin({'nom':'root', 'phone_number':'0997766555555', 'email':exemple_user_data['email']})
+    with pytest.raises(UserWithSameNumberError):
+        UserService.register_admin({'nom':'root', 'phone_number':exemple_user_data['phone_number'], 'email':'hack@hack.com'})

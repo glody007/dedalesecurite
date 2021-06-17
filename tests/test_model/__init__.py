@@ -33,9 +33,17 @@ def exemple_user_data():
             'email': "jjenda@jjenda.com"}
 
 def insert_user(exemple_user_data):
-    user = User.from_user_info(exemple_user_data)
+    user = User(nom = exemple_user_data["nom"],
+                phone_number = exemple_user_data["phone_number"],
+                email = exemple_user_data["email"])
     User.insert(user)
     return user
+
+@pytest.fixture(scope="module")
+def user(exemple_user_data):
+    return User(nom = exemple_user_data["nom"],
+                phone_number = exemple_user_data["phone_number"],
+                email = exemple_user_data["email"])
 
 def user_count():
     return User.objects.count()

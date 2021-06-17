@@ -1,6 +1,22 @@
 from ..models import User as UserModel
 from ..models import PlanType
 
+class ErrorUser(Exception):
+    """Base class for exceptions in this module."""
+    pass
+
+class UserWithSameEmailError(ErrorUser):
+    """Exception raised when trying to register with an email that has already been used."""
+    pass
+
+class UserWithSameNumberError(ErrorUser):
+    """Exception raised when trying to register with an phone number that has already been used."""
+    pass
+
+class WrongCredentialsError(ErrorUser):
+    """Exception raised when wrong credentials has been provided."""
+    pass
+
 
 class UserService:
 
@@ -46,7 +62,7 @@ class UserService:
         if user == None:
             callback()
         else:
-            user.update_from_info(data)
+            user.update(data)
 
     @staticmethod
     def get_list():
@@ -57,16 +73,31 @@ class UserService:
         return UserModel.objects.count()
 
     @staticmethod
+    def login(login_info):
+        user = UserModel.objects(email=login_info['email']).first()
+        if user == None:
+            raise WrongCredentialsError()
+        if not user.check_password(login_info['password']):
+            raise WrongCredentialsError()
+        return user.encode_auth_token()
+
+    @staticmethod
     def register(user_info):
+        user_with_email = UserModel.objects(email=user_info['email']).first()
+        if user_with_email:
+            raise UserWithSameEmailError()
+
+        user_with_phone_number = UserModel.objects(phone_number=user_info['phone_number']).first()
+        if user_with_phone_number:
+            raise UserWithSameNumberError()
+
         user =  UserService.create(user_info)
         user.set_password(user_info["password"])
         UserService.add(user)
-        return user
+        return user, user.encode_auth_token()
 
     @staticmethod
     def register_admin(user_info):
-        user = UserModel.objects(email=user_info["email"]).first()
-        if user == None:
-            user = UserService.register(user_info)
-            user.set_admin()
-        return user
+        user, auth_token = UserService.register(user_info)
+        user.set_admin()
+        return user, auth_token

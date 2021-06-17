@@ -61,14 +61,6 @@ class User(Document):
         user.save()
         return user
 
-    @staticmethod
-    def from_user_info(user_info):
-        user =  User(nom = user_info["nom"],
-                     phone_number = user_info["phone_number"],
-                     email = user_info["email"])
-        return user
-
-
     def set_admin(self):
         self.type = UserType.ADMIN
         self.save()
@@ -93,8 +85,8 @@ class User(Document):
             user.set_admin()
         return user
 
-    def update_from_info(self, user_info):
-        self.nom = user_info['nom']
-        self.phone_number = user_info['phone_number']
-        self.email = user_info['email']
+    def update(self, data):
+        self.nom = data['nom']
+        self.phone_number = data['phone_number']
+        self.email = data['email']
         self.save()

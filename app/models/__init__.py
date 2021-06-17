@@ -6,6 +6,7 @@ from .user import *
 
 def init_db():
     from flask import current_app
+
     if current_app.config['TESTING']:
         connect(host=current_app.config['DB_TEST_URI'])
     else:
