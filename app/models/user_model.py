@@ -1,6 +1,6 @@
 from mongoengine import *
-from .template import *
-from .plan import *
+from .template_model import *
+from .plan_model import *
 import datetime
 import os
 import jwt

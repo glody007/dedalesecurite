@@ -1,6 +1,6 @@
 import pytest
-from app.services.user import *
-from app.models.user import UserType
+from app.services.user_service import *
+from app.models.user_model import UserType
 from . import raiseError
 from .. import (drop_all,
                 exemple_user_data)

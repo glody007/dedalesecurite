@@ -1,5 +1,5 @@
 import pytest
-from app.models.template import *
+from app.models.template_model import *
 from . import *
 
 def test_update(drop_all, template):

@@ -1,6 +1,6 @@
 import pytest
-from app.models.user import *
-from app.models.plan import PlanType
+from app.models.user_model import *
+from app.models.plan_model import PlanType
 from . import *
 
 def test_insert(drop_all, user):

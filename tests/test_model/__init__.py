@@ -2,8 +2,8 @@ import pytest
 from mongoengine import *
 from flask import current_app
 from mongoengine.connection import disconnect
-from app.models.user import User
-from app.models.template import Template
+from app.models.user_model import User
+from app.models.template_model import Template
 from app.models import init_db
 from app import app
 

@@ -1,8 +1,9 @@
 from mongoengine import *
 import os
-from .plan import *
-from .template import *
-from .user import *
+from .plan_model import *
+from .template_model import *
+from .user_model import *
+from .datas_model import *
 
 def init_db():
     from flask import current_app
