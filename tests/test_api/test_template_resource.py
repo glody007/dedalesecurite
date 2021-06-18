@@ -78,10 +78,13 @@ def test_template_put(drop_all, client, exemple_template_data, exemple_user_data
     assert resp_post.status_code == 201
     template = resp_post.json['template']
 
-    exemple = deepcopy(exemple_template_data)
-    exemple['nom'] = ''
     resp_put = client.put('/api/template/{}'.format(template['id']), json=exemple_template_data, headers=token_header)
     assert resp_put.status_code == 201
+
+    exemple = deepcopy(exemple_template_data)
+    exemple['nom'] = ''
+    resp_put = client.put('/api/template/{}'.format(template['id']), json=exemple, headers=token_header)
+    assert resp_put.status_code == 400
 
     exemple = deepcopy(exemple_template_data)
     exemple['document_model'] = ''
