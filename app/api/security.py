@@ -3,7 +3,9 @@ from functools import wraps
 from flask import request
 from flask_restplus import abort
 from bson.objectid import ObjectId
-from ..models import User, UserType, Template
+from ..models import UserType
+from ..services import DatasService, TemplateService, UserService
+from .utils import abort_404
 from .validation import error_invalid_auth_token
 from .resource_type import ResourceType
 
@@ -20,7 +22,7 @@ class AuthType:
     ADMIN = "admin"
 
 def is_authorized(user_id, auth_type, res_type="", id_name=""):
-    user = User.objects.with_id(user_id)
+    user = UserService.get(user_id)
     if user == None:
         return False
     # Admin give access
@@ -40,13 +42,13 @@ def is_authorized(user_id, auth_type, res_type="", id_name=""):
             abort(404)
         if res_type == ResourceType.USER:
             return str(user.id) == id
-        else:
-            template = Template.objects.with_id(id)
-            if template == None:
-                abort(404)
+        elif res_type == ResourceType.DATAS:
+            datas = DatasService.get_or(id, abort_404)
+            template = TemplateService.get_or(datas.template_id, abort_404)
             return str(user.id) == template.creator_id
-
-
+        else:
+            template = template = TemplateService.get_or(id, abort_404)
+            return str(user.id) == template.creator_id
 
 def require_auth(type=AuthType.REGULAR, res_type="", id_name=""):
     def actual_require_auth_decorator(func):
@@ -57,7 +59,7 @@ def require_auth(type=AuthType.REGULAR, res_type="", id_name=""):
             auth_token = request.headers.get('X-API-KEY')
             if auth_token:
                 # Check if token is valid
-                resp = User.decode_auth_token(auth_token)
+                resp = UserService.get_id(auth_token)
                 if ObjectId.is_valid(resp):
                     if is_authorized(resp, type, res_type, id_name):
                         return func(*args, **kwargs)

@@ -20,3 +20,4 @@ def add_header(response):
 from .user import *
 from .auth import *
 from .template import *
+from .datas import *

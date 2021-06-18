@@ -56,7 +56,7 @@ class DatasService:
             datas.update(data)
 
     @staticmethod
-    def get_list():
+    def get_list(template_id=None):
         return DatasModel.objects()
 
     @staticmethod

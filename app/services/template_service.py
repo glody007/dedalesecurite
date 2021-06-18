@@ -1,4 +1,5 @@
 from ..models import Template as TemplateModel
+from .datas_service import DatasService
 
 class ErrorTemplate(Exception):
     """Base class for exceptions in this module."""
@@ -31,6 +32,16 @@ class TemplateService:
         return template.save()
 
     @staticmethod
+    def add_datas(datas_info, template_id):
+        datas_info['template_id'] = template_id
+        datas = DatasService.create(datas_info)
+        datas.save()
+        template = TemplateService.get(template_id)
+        template.list_datas.append(datas)
+        template.save()
+        return datas
+
+    @staticmethod
     def get(id):
         return TemplateModel.objects.with_id(id)
 
@@ -58,7 +69,7 @@ class TemplateService:
             template.update(data)
 
     @staticmethod
-    def get_list():
+    def get_list(user_id=None):
         return TemplateModel.objects()
 
     @staticmethod

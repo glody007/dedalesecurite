@@ -52,9 +52,9 @@ def insert_template(exemple_template_data):
     template.save()
     return template
 
-def insert_datas(exemple_datas_data):
-    datas = Template(values=exemple_datas_data['values'],
-                     template_id=exemple_datas_data['template_id'])
+def insert_datas(exemple_datas_data, template_id):
+    datas = Datas(values=exemple_datas_data['values'],
+                  template_id=str(template_id))
     datas.save()
     return datas
 
