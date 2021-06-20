@@ -10,8 +10,14 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
           </ul>
-          <button class="btn" type="button">Login</button>
-          <button class="btn btn-dark ml-2" type="button">Sign Up</button>
+          <router-link to="login">
+            <button class="btn btn-lg" type="button">Login</button>
+          </router-link>
+
+          <router-link to="registration">
+            <b-button pill size="lg" variant="primary" class="ml-2" type="button">Sign Up</b-button>
+          </router-link>
+
         </div>
       </div>
     </nav>
@@ -23,3 +29,9 @@ export default {
   name: 'NavBar'
 }
 </script>
+
+<style>
+navbar-brand {
+    color: blue;
+}
+</style>
