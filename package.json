@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@editorjs/image": "^2.6.0",
+    "@vuelidate/core": "^2.0.0-alpha.19",
+    "@vuelidate/validators": "^2.0.0-alpha.17",
     "axios": "^0.18.0",
     "bootstrap": "^5.0.1",
     "bootstrap-vue": "^2.21.2",
@@ -19,7 +21,8 @@
     "quill-image-uploader": "^1.2.2",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuetify": "^2.5.5",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.6",

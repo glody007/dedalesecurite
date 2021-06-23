@@ -49,7 +49,7 @@ class Login(Resource):
     @api_rest.expect(user_login_info_fields, validate=True)
     @api_rest.response(201, 'Success')
     @api_rest.response(400, 'Validation Error')
-    @api_rest.response(404, 'Wrong credentials')
+    @api_rest.response(401, 'Wrong credentials')
     def post(self):
         try:
             auth_token = UserService.login(request.json)

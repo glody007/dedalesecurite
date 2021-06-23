@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import ImageKit from 'imagekitio-vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import Vuetify from 'vuetify'
 
 import './filters'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -19,6 +20,7 @@ Vue.use(ImageKit, {
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(Vuetify)
 
 new Vue({
   router,

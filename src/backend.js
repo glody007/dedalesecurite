@@ -22,10 +22,14 @@ $axios.interceptors.response.use(function (response) {
 })
 
 export default {
-
   fetchToken () {
     return $axios.get(`/auth/uploadendpoint`)
       .then(response => response.data)
+  },
+  login (data) {
+    return $axios.post(`/auth/login`, data)
+  },
+  register (data) {
+    return $axios.post(`/auth/register`, data)
   }
-
 }

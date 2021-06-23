@@ -25,7 +25,7 @@ error_user_with_same_phone_number = {
 error_wrong_credentials = {
                               "result": "fail",
                               "message": "Wrong credentials."
-                          }, 404
+                          }, 401
 
 error_invalid_auth_token = {
                               "result": "fail",

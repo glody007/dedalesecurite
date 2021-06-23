@@ -29,7 +29,7 @@ def test_auth_register(drop_all, client, exemple_user_data):
 
 def test_auth_login(drop_all, client, exemple_user_data):
     resp = client.post('/api/auth/login', json=exemple_user_data)
-    assert resp.status_code == 404
+    assert resp.status_code == 401
     assert 'Wrong credentials' in resp.json['message']
 
     resp = client.post('/api/auth/register', json=exemple_user_data)

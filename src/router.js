@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Editor from './views/Editor.vue'
 import Login from './views/Login.vue'
 import Registration from './views/Registration.vue'
+import Dashboard from './views/Dashboard.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/registration',
       name: 'registration',
       component: Registration
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard
     }
   ]
 })
