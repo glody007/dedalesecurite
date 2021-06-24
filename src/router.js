@@ -5,6 +5,9 @@ import Editor from './views/Editor.vue'
 import Login from './views/Login.vue'
 import Registration from './views/Registration.vue'
 import Dashboard from './views/Dashboard.vue'
+import NewTemplate from './views/NewTemplate.vue'
+import ListTemplates from './views/ListTemplates.vue'
+import Template from './views/Template.vue'
 
 Vue.use(Router)
 
@@ -33,7 +36,22 @@ export default new Router({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Dashboard
+      component: Dashboard,
+      children: [
+        {
+          path: '/',
+          name: 'list-templates',
+          component: ListTemplates
+        },
+        {
+          path: 'new-template',
+          component: NewTemplate
+        },
+        {
+          path: 'template/:id',
+          component: Template
+        }
+      ]
     }
   ]
 })
