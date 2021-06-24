@@ -1,5 +1,5 @@
 <template>
-  <div id="main">
+  <div id="main container">
     <div ref="quill"></div>
   </div>
 </template>

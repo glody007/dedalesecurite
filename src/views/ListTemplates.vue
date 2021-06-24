@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <Title text="Mes templates" />
     <div class="md-layout md-gutter">
       <div class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
         <NewTemplateCard />
@@ -12,6 +13,7 @@
 </template>
 
 <script>
+import Title from '@/components/Title.vue'
 import NewTemplateCard from '@/components/NewTemplateCard.vue'
 import TemplateCard from '@/components/TemplateCard.vue'
 
@@ -27,7 +29,7 @@ export default {
     ]
   }),
   components: {
-    NewTemplateCard, TemplateCard
+    Title, NewTemplateCard, TemplateCard
   }
 }
 </script>
