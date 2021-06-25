@@ -1,21 +1,23 @@
 <template>
-  <md-card md-with-hover>
-    <md-ripple>
-      <md-card-header>
-        <div class="md-title">{{ name }}</div>
-        <div class="md-subhead">Template existant</div>
-      </md-card-header>
+  <router-link :to="{ name: 'template', params: { id: id }}" style="display: inline-block;text-decoration:none;">
+    <md-card md-with-hover>
+      <md-ripple>
+        <md-card-header>
+          <div class="md-title">{{ name }}</div>
+          <div class="md-subhead">Template existant</div>
+        </md-card-header>
 
-      <md-card-content>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non.
-      </md-card-content>
-    </md-ripple>
-  </md-card>
+        <md-card-content>
+          Cliquer pour modifier le template, creer des nouveaux documents a partir du template et generer des nouveaux Qr code de verification.
+        </md-card-content>
+      </md-ripple>
+    </md-card>
+  </router-link>
 </template>
 
 <script>
 export default {
   name: 'TemplateCard',
-  props: ['name']
+  props: ['name', 'id']
 }
 </script>

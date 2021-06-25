@@ -39,10 +39,12 @@ export default new Router({
         },
         {
           path: 'new-template',
+          name: 'new-template',
           component: NewTemplate
         },
         {
           path: 'template/:id',
+          name: 'template',
           component: Template
         }
       ]

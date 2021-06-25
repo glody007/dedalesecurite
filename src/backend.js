@@ -31,5 +31,8 @@ export default {
   },
   register (data) {
     return $axios.post(`/auth/register`, data)
+  },
+  fetchTemplates () {
+    return $axios.get(`/templates`)
   }
 }
