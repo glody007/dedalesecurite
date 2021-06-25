@@ -38,7 +38,10 @@ export default {
   fetchTemplates () {
     return $axios.get(`/templates`)
   },
+  fetchTemplate (id) {
+    return $axios.get(`/template/${id}`)
+  },
   createTemplate (data) {
     return $axios.post(`/templates`, data)
-  }
+  },
 }

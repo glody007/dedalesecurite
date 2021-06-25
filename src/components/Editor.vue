@@ -17,7 +17,6 @@ let imagekit = new ImageKit({
 
 export default {
   name: 'editor',
-  props: ['template'],
   data () {
     return {
       content: {
