@@ -8,7 +8,10 @@ let $axios = axios.create({
 
 // Request Interceptor
 $axios.interceptors.request.use(function (config) {
-  config.headers['Authorization'] = 'Fake Token'
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers['X-API-KEY'] = token
+  }
   return config
 })
 
@@ -34,5 +37,8 @@ export default {
   },
   fetchTemplates () {
     return $axios.get(`/templates`)
+  },
+  createTemplate (data) {
+    return $axios.post(`/templates`, data)
   }
 }

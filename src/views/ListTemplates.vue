@@ -31,7 +31,7 @@ export default {
   name: 'ListTemplates',
   data: () => ({
     templates: [],
-    loading: true,
+    loading: false,
     error: false
   }),
   components: {

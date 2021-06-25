@@ -17,6 +17,7 @@ let imagekit = new ImageKit({
 
 export default {
   name: 'editor',
+  props: ['template'],
   data () {
     return {
       content: {
@@ -56,6 +57,9 @@ export default {
   },
   mounted () {
     this.editor = new Quill(this.$refs.quill, this.config)
+    this.editor.on('text-change', (delta, oldDelta, source) => {
+      this.$emit('change', { document: JSON.stringify(this.editor.getContents()), datas: JSON.stringify({ name: 'string', birthday: 'date' }) })
+    })
     this.editor.getModule('toolbar').addHandler('image', this.selectLocalImage)
   },
   methods: {
