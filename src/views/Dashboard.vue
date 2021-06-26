@@ -6,31 +6,45 @@
          <md-icon>menu</md-icon>
        </md-button>
        <span class="md-title">Tableau de bord</span>
-
-       <div class="md-toolbar-section-end">
-         <md-button class="md-icon-button">
-           <md-icon>more_vert</md-icon>
-         </md-button>
-       </div>
      </md-app-toolbar>
 
-     <md-app-drawer :md-active.sync="menuVisible">
-       <md-toolbar class="md-transparent" md-elevation="0">Navigation</md-toolbar>
+     <md-app-drawer :md-active.sync="menuVisible" md-persistent="mini">
+       <md-toolbar class="md-transparent" md-elevation="0">DEDALE SECURITE</md-toolbar>
 
        <md-list>
-         <md-list-item>
-           <md-icon>home</md-icon>
-           <span class="md-list-item-text">Acceuil</span>
-         </md-list-item>
+         <router-link :to="{ name: 'home' }">
+           <md-list-item>
+             <md-icon>home</md-icon>
+             <span class="md-list-item-text">Acceuil</span>
+           </md-list-item>
+         </router-link>
 
-         <md-list-item>
-           <md-icon>menu</md-icon>
-           <span class="md-list-item-text">Mes templates</span>
+         <router-link :to="{ name: 'list-templates' }">
+           <md-list-item>
+             <md-icon>view_list</md-icon>
+             <span class="md-list-item-text">Mes templates</span>
+           </md-list-item>
+         </router-link>
+
+         <router-link :to="{ name: 'new-template' }">
+           <md-list-item>
+             <md-icon>add</md-icon>
+             <span class="md-list-item-text">Creer un template</span>
+           </md-list-item>
+         </router-link>
+
+         <md-list-item @click="logoutClicked = true">
+           <md-icon>logout</md-icon>
+           <span class="md-list-item-text">Déconnexion</span>
          </md-list-item>
        </md-list>
      </md-app-drawer>
 
       <md-app-content>
+        <DialogDeconnexion
+          :active="logoutClicked"
+          @cancel="logoutClicked = false"
+          @agreed="logoutClicked = false"/>
         <router-view/>
       </md-app-content>
     </md-app>
@@ -38,13 +52,18 @@
 </template>
 
 <script>
+import DialogDeconnexion from '@/components/DialogDeconnexion.vue'
 
 export default {
   name: 'dashboard',
   data: () => ({
-    menuVisible: false
+    menuVisible: false,
+    logoutClicked: false
   }),
   components: {
+    DialogDeconnexion
+  },
+  methods: {
 
   }
 }
@@ -55,6 +74,9 @@ export default {
     min-height: 100vh;
   }
   .md-drawer {
-      width: 230px;
+    width: 230px;
+  }
+  .md-list-item-text {
+    color: black;
   }
 </style>

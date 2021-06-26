@@ -2,8 +2,8 @@
   <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light">
       <div class="container-fluid">
-        <router-link to="/" style="display: inline-block;text-decoration:none;">
-          <a class="navbar-brand" href="#">DEDALE SECURITE</a>
+        <router-link to="/">
+          <a class="navbar-brand" href="#" style="display: inline-block;text-decoration:none; color:black;">DEDALE SECURITE</a>
         </router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -32,7 +32,5 @@ export default {
 </script>
 
 <style>
-navbar-brand {
-    color: blue;
-}
+
 </style>

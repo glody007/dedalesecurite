@@ -10,7 +10,7 @@ import Template from './views/Template.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -51,3 +51,12 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  if ((to.name !== 'home' && to.name !== 'login' && to.name !== 'registration') && !token) {
+    next({ name: 'login' })
+  } else next()
+})
+
+export default router
