@@ -5,6 +5,7 @@
         <h1 class="md-title">Donnees associer au template</h1>
         <div class="md-toolbar-section-end">
           <md-button
+            class="md-primary md-raised"
             @click="showDialogAdd=true">
             <md-icon>add</md-icon>
             Ajouter

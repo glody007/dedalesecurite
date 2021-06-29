@@ -5,7 +5,7 @@
         Selectionnez un ou plusieurs elements du tableau pour generer des documents ou de QR code de verification.
       </span>
     </div>
-    <md-table v-model="people" md-card @md-selected="onSelect">
+    <md-table v-model="listDatas" md-card @md-selected="onSelect">
       <md-table-toolbar>
         <h1 class="md-title">Donnees associer au template</h1>
       </md-table-toolbar>
@@ -14,71 +14,95 @@
         <div class="md-toolbar-section-start">{{ getAlternateLabel(count) }}</div>
 
         <div class="md-toolbar-section-end">
-          <md-button class="md-icon-button">
-            <md-icon>delete</md-icon>
+          <md-button
+            class="md-primary md-raised"
+            @click="showDialogAdd=true">
+            <md-icon>
+              qr_code_2
+            </md-icon>
+            Generer
           </md-button>
         </div>
       </md-table-toolbar>
 
-      <md-table-row slot="md-table-row" slot-scope="{ item }" :md-disabled="item.name.includes('Stave')" md-selectable="multiple" md-auto-select>
-        <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-        <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
-        <md-table-cell md-label="Gender" md-sort-by="gender">{{ item.gender }}</md-table-cell>
+      <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" class="md-primary">
+        <md-table-cell v-for="key in keys" :key="key" :md-label="key" :md-sort-by="key">{{ item[key] }}</md-table-cell>
       </md-table-row>
     </md-table>
+    <div v-if="loading" class="md-layout-item md-xsmall-size-100">
+      <div class="text-center mt-4">
+        <b-spinner variant="primary"></b-spinner>
+      </div>
+    </div>
+    <md-snackbar md-position="center" :md-duration="Infinity" :md-active.sync="error" md-persistent>
+      <span>Une erreur est survenue!</span>
+      <md-button class="md-primary" @click="fetchListDatas">réessayez</md-button>
+    </md-snackbar>
+    <DialogGenerateQrCode
+      :active="showDialogAdd"
+      :items="this.selected"
+      @cancel="showDialogAdd = false"/>
   </div>
 </template>
 
 <script>
+import DialogGenerateQrCode from '@/components/DialogGenerateQrCode.vue'
+import $backend from '../backend'
+
 export default {
   name: 'DocumentQrCode',
+  props: ['template'],
   data: () => ({
-    selected: [],
-    people: [
-      {
-        name: 'Shawna Dubbin',
-        email: 'sdubbin0@geocities.com',
-        gender: 'Male',
-        title: 'Assistant Media Planner'
-      },
-      {
-        name: 'Odette Demageard',
-        email: 'odemageard1@spotify.com',
-        gender: 'Female',
-        title: 'Account Coordinator'
-      },
-      {
-        name: 'Lonnie Izkovitz',
-        email: 'lizkovitz3@youtu.be',
-        gender: 'Female',
-        title: 'Operator'
-      },
-      {
-        name: 'Thatcher Stave',
-        email: 'tstave4@reference.com',
-        gender: 'Male',
-        title: 'Software Test Engineer III'
-      },
-      {
-        name: 'Clarinda Marieton',
-        email: 'cmarietonh@theatlantic.com',
-        gender: 'Female',
-        title: 'Paralegal'
-      }
-    ]
+    selected: null,
+    keys: [],
+    listDatas: [],
+    datas_model: null,
+    error: false,
+    loading: true,
+    showDialogAdd: false
   }),
+  components: {
+    DialogGenerateQrCode
+  },
+  created () {
+    this.datas_model = JSON.parse(this.template.datas_model)
+    for (const key in this.datas_model) this.keys.push(key)
+    this.fetchListDatas()
+  },
+  watch: {
+    '$route': 'fetchListDatas'
+  },
   methods: {
-    onSelect (items) {
-      this.selected = items
-    },
     getAlternateLabel (count) {
-      let plural = ''
-
-      if (count > 1) {
-        plural = 's'
-      }
-
-      return `${count} user${plural} selected`
+      return `Vous avez choisi ${count}`
+    },
+    onSelect (item) {
+      this.selected = item
+    },
+    onSaved (datas) {
+      this.showDialogAdd = false
+      this.fetchListDatas()
+    },
+    fetchListDatas () {
+      this.loading = true
+      this.error = false
+      $backend.fetchListDatas(this.template.id)
+        .then(response => {
+          this.loading = false
+          return response.data['list datas'].map((element) => {
+            const values = JSON.parse(element.values)
+            values.id = element.id
+            return values
+          })
+        })
+        .then(datas => {
+          this.listDatas = datas
+        })
+        .catch(error => {
+          console.log(error)
+          this.error = true
+          this.loading = false
+        })
     }
   }
 }

@@ -26,7 +26,7 @@
           <md-tab id="tab-qr-code" md-label="Documents et QR Codes">
             <div class="md-layout">
               <div class="md-layout-item md-medium-size-80 md-small-size-80 md-xsmall-size-33">
-                <DocumentQrCode class="element"/>
+                <DocumentQrCode :template="template" class="element"/>
               </div>
             </div>
           </md-tab>
