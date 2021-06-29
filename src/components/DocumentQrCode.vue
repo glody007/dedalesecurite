@@ -1,8 +1,13 @@
 <template>
   <div class="container">
+    <div class="md-layout info">
+      <span class="">
+        Selectionnez un ou plusieurs elements du tableau pour generer des documents ou de QR code de verification.
+      </span>
+    </div>
     <md-table v-model="people" md-card @md-selected="onSelect">
       <md-table-toolbar>
-        <h1 class="md-title">With auto select and alternate headers</h1>
+        <h1 class="md-title">Donnees associer au template</h1>
       </md-table-toolbar>
 
       <md-table-toolbar slot="md-table-alternate-header" slot-scope="{ count }">
@@ -26,7 +31,7 @@
 
 <script>
 export default {
-  name: 'Datas',
+  name: 'DocumentQrCode',
   data: () => ({
     selected: [],
     people: [
@@ -80,5 +85,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.info {
+  padding-left: 32px;
+  padding-bottom: 32px;
+}
 </style>

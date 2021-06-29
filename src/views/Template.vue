@@ -11,22 +11,30 @@
         <md-tabs>
           <md-tab id="tab-template" md-label="Template">
             <div class="md-layout">
-              <div class="md-layout-item md-xsmall-size-33">
+              <div class="md-layout-item md-medium-size-80 md-small-size-50 md-xsmall-size-33">
                 <TemplateDocument :template="template" class="element"/>
               </div>
             </div>
           </md-tab>
           <md-tab id="tab-datas" md-label="Donnees">
-            <Datas class="element"/>
+            <div class="md-layout">
+              <div class="md-layout-item md-medium-size-80 md-small-size-80 md-xsmall-size-33">
+                <Datas :template="template" class="element"/>
+              </div>
+            </div>
           </md-tab>
-          <md-tab id="tab-qr-code" md-label="QR Code">
-            <QrCode class="element"/>
+          <md-tab id="tab-qr-code" md-label="Documents et QR Codes">
+            <div class="md-layout">
+              <div class="md-layout-item md-medium-size-80 md-small-size-80 md-xsmall-size-33">
+                <DocumentQrCode class="element"/>
+              </div>
+            </div>
           </md-tab>
         </md-tabs>
       </div>
     </div>
     <md-snackbar md-position="center" :md-duration="Infinity" :md-active.sync="error" md-persistent>
-      <span>Probleme de connection!</span>
+      <span>Une erreur est survenue!</span>
       <md-button class="md-primary" @click="fetchTemplate">réessayez</md-button>
     </md-snackbar>
   </div>
@@ -36,7 +44,7 @@
 import Title from '@/components/Title.vue'
 import TemplateDocument from '@/components/TemplateDocument.vue'
 import Datas from '@/components/Datas.vue'
-import QrCode from '@/components/QrCode.vue'
+import DocumentQrCode from '@/components/DocumentQrCode.vue'
 import $backend from '../backend'
 
 export default {
@@ -51,7 +59,7 @@ export default {
     error: true
   }),
   components: {
-    Title, TemplateDocument, Datas, QrCode
+    Title, TemplateDocument, Datas, DocumentQrCode
   },
   created () {
     this.fetchTemplate()

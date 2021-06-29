@@ -44,4 +44,10 @@ export default {
   createTemplate (data) {
     return $axios.post(`/templates`, data)
   },
+  fetchListDatas (templateId) {
+    return $axios.get(`/templates/${templateId}/list-datas`)
+  },
+  createDatas (templateId, data) {
+    return $axios.post(`/templates/${templateId}/list-datas`, data)
+  }
 }

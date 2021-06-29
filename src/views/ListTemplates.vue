@@ -14,7 +14,7 @@
         </div>
       </div>
       <md-snackbar md-position="center" :md-duration="Infinity" :md-active.sync="error" md-persistent>
-        <span>Probleme de connection!</span>
+        <span>Une erreur est survenue!</span>
         <md-button class="md-primary" @click="fetchTemplates">réessayez</md-button>
       </md-snackbar>
     </div>

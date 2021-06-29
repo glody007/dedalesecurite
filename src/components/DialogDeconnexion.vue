@@ -2,6 +2,7 @@
   <div>
     <md-dialog-confirm
       :md-active.sync="active"
+      :md-click-outside-to-close="false"
       md-title="Voulez-vous vous deconnecter de Dedale?"
       md-confirm-text="Oui"
       md-cancel-text="Non"
@@ -15,7 +16,7 @@ export default {
   name: 'DialogDeconnexion',
   props: ['active'],
   data: () => ({
-    value: null
+
   }),
   methods: {
     onConfirm () {
