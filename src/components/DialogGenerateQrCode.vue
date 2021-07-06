@@ -39,6 +39,10 @@
 </template>
 
 <script>
+import pdfMake from 'pdfmake/build/pdfmake'
+import pdfFonts from 'pdfmake/build/vfs_fonts'
+pdfMake.vfs = pdfFonts.pdfMake.vfs
+
 export default {
   name: 'DialogGenerateQrCode',
   props: ['active', 'items'],
@@ -55,6 +59,35 @@ export default {
     onGenerateDocumentClicked () {
     },
     onGenerateQrCodeClicked () {
+      let docDefinition = {
+        content: [
+          {
+            text: 'Template',
+            style: 'header'
+          },
+          {
+            columns: [
+              {
+                width: 'auto',
+                stack: [
+                  { qr: 'text in QR' },
+                  { text: 'Nom', style: 'subheader' }
+                ]
+              }
+            ]
+          }
+        ],
+        styles: {
+          header: {
+            fontSize: 18,
+            bold: true,
+            alignment: 'right',
+            margin: [0, 0, 0, 10]
+          },
+          subheader: { fontSize: 14 }
+        }
+      }
+      pdfMake.createPdf(docDefinition).open({}, window.frames['printPdf'])
     }
   }
 }
