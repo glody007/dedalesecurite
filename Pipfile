@@ -17,6 +17,7 @@ pytest = "*"
 pyjwt = "==1.4.2"
 flask-bcrypt = "*"
 pytest-cov = "*"
+imagekitio = "*"
 
 [dev-packages]
 pytest = "*"

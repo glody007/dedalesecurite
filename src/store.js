@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem('token') || '',
+    token: localStorage.getItem('token') || ''
   },
   mutations: {
     loginSuccess (state, data) {
