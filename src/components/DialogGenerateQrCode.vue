@@ -45,13 +45,32 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs
 
 export default {
   name: 'DialogGenerateQrCode',
-  props: ['active', 'items'],
+  props: ['active', 'items', 'keys', 'templateNom'],
   data: () => ({
-    keys: []
+    docDefinition: {
+      content: [],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          alignment: 'right',
+          margin: [0, 0, 0, 10]
+        },
+        subheader: {
+          fontSize: 14,
+          margin: [5, 0, 0, 20]
+        },
+        qrcode: {
+          margin: [5, 5, 5, 5]
+        }
+      }
+    },
+    header: {
+      text: '',
+      style: 'header'
+    },
+    main: []
   }),
-  created () {
-    for (const key in this.datas_model) this.keys.push(key)
-  },
   methods: {
     onCancel () {
       this.$emit('cancel')
@@ -59,35 +78,24 @@ export default {
     onGenerateDocumentClicked () {
     },
     onGenerateQrCodeClicked () {
-      let docDefinition = {
-        content: [
-          {
-            text: 'Template',
-            style: 'header'
-          },
-          {
-            columns: [
-              {
-                width: 'auto',
-                stack: [
-                  { qr: 'text in QR' },
-                  { text: 'Nom', style: 'subheader' }
-                ]
-              }
-            ]
-          }
-        ],
-        styles: {
-          header: {
-            fontSize: 18,
-            bold: true,
-            alignment: 'right',
-            margin: [0, 0, 0, 10]
-          },
-          subheader: { fontSize: 14 }
+      this.header.text = this.templateNom
+      this.main = []
+      let columns = []
+      this.items.forEach((item, i) => {
+        if (i % 3 === 0) {
+          columns = []
+          this.main.push({ columns: columns })
         }
-      }
-      pdfMake.createPdf(docDefinition).open({}, window.frames['printPdf'])
+        columns.push({
+          width: 'auto',
+          stack: [
+            { qr: `www.dedalesecurite.com/verify/${item.id}`, style: 'qrcode' },
+            { text: item[this.keys[0]], style: 'subheader' }
+          ]
+        })
+      })
+      this.docDefinition.content = [this.header, this.main]
+      pdfMake.createPdf(this.docDefinition).open({}, window.frames['printPdf'])
     }
   }
 }

@@ -41,6 +41,8 @@
     <DialogGenerateQrCode
       :active="showDialogAdd"
       :items="this.selected"
+      :keys="this.keys"
+      :templateNom="this.template.nom"
       @cancel="showDialogAdd = false"/>
   </div>
 </template>
