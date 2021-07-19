@@ -35,7 +35,7 @@
         <md-button class="md-primary" @click="onCancel">Annuler</md-button>
       </md-dialog-actions>
     </md-dialog>
-    <div ref="quill"></div>
+    <div ref="quill" id="editor"></div>
   </div>
 </template>
 
@@ -43,6 +43,7 @@
 import Quill from 'quill'
 import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
+import html2canvas from 'html2canvas'
 pdfMake.vfs = pdfFonts.pdfMake.vfs
 
 export default {
@@ -64,6 +65,10 @@ export default {
         },
         qrcode: {
           margin: [5, 5, 5, 5]
+        },
+        qrcodedoc: {
+          margin: [5, 5, 100, 5],
+          alignment: 'center'
         }
       }
     },
@@ -80,27 +85,39 @@ export default {
       this.$emit('cancel')
     },
     onGenerateDocumentClicked () {
-      this.editor = new Quill(this.$refs.quill)
-      this.editor.setContents(JSON.parse(this.template.document_model))
-      this.html = this.editor.root.innerHTML
       this.header.text = ''
       this.main = []
-      let columns = []
       this.items.forEach((item, i) => {
-        columns = []
-        columns.push({
-          width: 'auto',
-          stack: [
-            { qr: `www.dedalesecurite.com/verify/${item.id}`,
-              style: 'qrcode',
-              pageBreak: 'after'
-            }
-          ]
+        let columns = []
+        this.prepocessEditorHtml()
+        html2canvas(document.getElementById('editor'), {
+          useCORS: true,
+          allowTaint: true
+        }).then(canvas => {
+          columns.push({
+            width: 'auto',
+            stack: [
+              {
+                qr: `www.dedalesecurite.com/verify/${item.id}`,
+                style: 'qrcodedoc'
+              },
+              {
+                image: canvas.toDataURL(),
+                pageBreak: 'after'
+              }
+            ]
+          })
+          this.main.push({ columns: columns })
+          if (i === this.items.length - 1) {
+            this.docDefinition.content = [this.header, this.main]
+            pdfMake.createPdf(this.docDefinition).open({}, window.frames['printPdf'])
+          }
         })
-        this.main.push({ columns: columns })
       })
-      this.docDefinition.content = [this.header, this.main]
-      pdfMake.createPdf(this.docDefinition).open({}, window.frames['printPdf'])
+    },
+    prepocessEditorHtml (item) {
+      this.editor = new Quill(this.$refs.quill)
+      this.editor.setContents(JSON.parse(this.template.document_model))
     },
     onGenerateQrCodeClicked () {
       this.header.text = this.templateNom
