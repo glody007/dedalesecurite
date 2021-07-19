@@ -35,17 +35,19 @@
         <md-button class="md-primary" @click="onCancel">Annuler</md-button>
       </md-dialog-actions>
     </md-dialog>
+    <div ref="quill"></div>
   </div>
 </template>
 
 <script>
+import Quill from 'quill'
 import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 pdfMake.vfs = pdfFonts.pdfMake.vfs
 
 export default {
   name: 'DialogGenerateQrCode',
-  props: ['active', 'items', 'keys', 'templateNom'],
+  props: ['active', 'items', 'keys', 'templateNom', 'template'],
   data: () => ({
     docDefinition: {
       content: [],
@@ -69,13 +71,36 @@ export default {
       text: '',
       style: 'header'
     },
-    main: []
+    main: [],
+    editor: null,
+    html: ''
   }),
   methods: {
     onCancel () {
       this.$emit('cancel')
     },
     onGenerateDocumentClicked () {
+      this.editor = new Quill(this.$refs.quill)
+      this.editor.setContents(JSON.parse(this.template.document_model))
+      this.html = this.editor.root.innerHTML
+      this.header.text = ''
+      this.main = []
+      let columns = []
+      this.items.forEach((item, i) => {
+        columns = []
+        columns.push({
+          width: 'auto',
+          stack: [
+            { qr: `www.dedalesecurite.com/verify/${item.id}`,
+              style: 'qrcode',
+              pageBreak: 'after'
+            }
+          ]
+        })
+        this.main.push({ columns: columns })
+      })
+      this.docDefinition.content = [this.header, this.main]
+      pdfMake.createPdf(this.docDefinition).open({}, window.frames['printPdf'])
     },
     onGenerateQrCodeClicked () {
       this.header.text = this.templateNom

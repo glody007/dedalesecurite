@@ -43,6 +43,7 @@
       :items="this.selected"
       :keys="this.keys"
       :templateNom="this.template.nom"
+      :template="this.template"
       @cancel="showDialogAdd = false"/>
   </div>
 </template>
