@@ -5,9 +5,8 @@
 </template>
 
 <script>
-
 import ImageKit from 'imagekit-javascript'
-import Quill from 'quill'
+import Quill from '../quill'
 
 let imagekit = new ImageKit({
   urlEndpoint: 'https://ik.imagekit.io/tlr7lkiwqbj',
@@ -57,9 +56,11 @@ export default {
   mounted () {
     this.editor = new Quill(this.$refs.quill, this.config)
     this.editor.on('text-change', (delta, oldDelta, source) => {
-      this.$emit('change', { document: JSON.stringify(this.editor.getContents()), datas: JSON.stringify({ name: 'string', birthday: 'date' }) })
+      this.$emit('change', { document: JSON.stringify(this.editor.getContents()),
+        datas: this.getDatas() })
     })
     this.editor.getModule('toolbar').addHandler('image', this.selectLocalImage)
+    this.editor.getModule('toolbar').addHandler('code-block', this.addData)
   },
   methods: {
     saveToServer (file) {
@@ -67,6 +68,23 @@ export default {
         file: file,
         fileName: 'file.jpg'
       }, this.uploadCallback)
+    },
+    addData () {
+      const range = this.editor.getSelection()
+      let value = prompt('Entrer le nom de votre substituant')
+      this.editor.insertEmbed(range.index, 'data', value)
+    },
+    getDatas () {
+      const delta = this.editor.getContents()
+      const datas = {}
+      delta
+        .filter((op) => {
+          return op.insert.data
+        })
+        .map((op) => {
+          datas[op.insert.data] = 'string'
+        })
+      return JSON.stringify(datas)
     },
     selectLocalImage () {
       const input = document.createElement('input')
@@ -96,5 +114,10 @@ export default {
 </script>
 
 <style lang="scss">
-
+.data {
+  color: white;
+  background-color: blue;
+  padding: 4px;
+  border-radius: 2px;
+}
 </style>

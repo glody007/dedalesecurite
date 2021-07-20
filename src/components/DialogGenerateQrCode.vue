@@ -35,12 +35,12 @@
         <md-button class="md-primary" @click="onCancel">Annuler</md-button>
       </md-dialog-actions>
     </md-dialog>
-    <div ref="quill" id="editor"></div>
+    <div ref="quill" id="canvas"></div>
   </div>
 </template>
 
 <script>
-import Quill from 'quill'
+import Quill from '../quill'
 import pdfMake from 'pdfmake/build/pdfmake'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 import html2canvas from 'html2canvas'
@@ -67,8 +67,7 @@ export default {
           margin: [5, 5, 5, 5]
         },
         qrcodedoc: {
-          margin: [5, 5, 100, 5],
-          alignment: 'center'
+          margin: [5, 5, 5, 5]
         }
       }
     },
@@ -89,8 +88,8 @@ export default {
       this.main = []
       this.items.forEach((item, i) => {
         let columns = []
-        this.prepocessEditorHtml()
-        html2canvas(document.getElementById('editor'), {
+        this.prepocessEditorHtml(item)
+        html2canvas(document.getElementById('canvas'), {
           useCORS: true,
           allowTaint: true
         }).then(canvas => {
@@ -117,7 +116,11 @@ export default {
     },
     prepocessEditorHtml (item) {
       this.editor = new Quill(this.$refs.quill)
-      this.editor.setContents(JSON.parse(this.template.document_model))
+      const delta = JSON.parse(this.template.document_model)
+      delta.ops.forEach((op, i) => {
+        if (op.insert && op.insert.data) op.insert = item[op.insert.data]
+      })
+      this.editor.setContents(delta)
     },
     onGenerateQrCodeClicked () {
       this.header.text = this.templateNom
@@ -161,5 +164,8 @@ export default {
   .card {
     margin: 16px;
     min-height: 30vh;
+  }
+  #canvas {
+    background-color: blue;
   }
 </style>
