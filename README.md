@@ -136,4 +136,4 @@ Here are the commands we need to run to get things setup on the Heroku side:
 
 ### Heroku deployment - One Click Deploy
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/gtalarico/flask-vuejs-template)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/glody007/dedalesecurite)
