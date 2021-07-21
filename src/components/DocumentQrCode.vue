@@ -16,7 +16,7 @@
         <div class="md-toolbar-section-end">
           <md-button
             class="md-primary md-raised"
-            @click="showDialogAdd=true">
+            @click="showDialogClicked">
             <md-icon>
               qr_code_2
             </md-icon>
@@ -76,6 +76,10 @@ export default {
     '$route': 'fetchListDatas'
   },
   methods: {
+    showDialogClicked () {
+      window.scrollTo(0, 0)
+      this.showDialogAdd = true
+    },
     getAlternateLabel (count) {
       return `Vous avez choisi ${count}`
     },

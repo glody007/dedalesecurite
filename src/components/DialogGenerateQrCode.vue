@@ -3,7 +3,13 @@
     <md-dialog :md-active.sync="active" :md-click-outside-to-close="false">
       <md-dialog-title>Generer</md-dialog-title>
 
-      <div class="md-layout md-gutter md-alignment-center-left">
+      <div v-if="generating" class="md-layout-item md-xsmall-size-100">
+        <div class="text-center mt-4">
+          <b-spinner variant="primary"></b-spinner>
+        </div>
+      </div>
+
+      <div v-if="!generating" class="md-layout md-gutter md-alignment-center-left">
         <div id="document" @click="onGenerateDocumentClicked" class="md-layout-item md-medium-size-50 md-small-size-50 md-xsmall-size-100">
           <md-card class="md-accent card" md-with-hover>
             <md-ripple>
@@ -17,7 +23,7 @@
           </md-card>
         </div>
 
-        <div id="qr-code" @click="onGenerateQrCodeClicked"  class="md-layout-item md-medium-size-50 md-small-size-50 md-xsmall-size-100">
+        <div v-if="!generating" id="qr-code" @click="onGenerateQrCodeClicked"  class="md-layout-item md-medium-size-50 md-small-size-50 md-xsmall-size-100">
           <md-card class="md-accent card" md-with-hover>
             <md-ripple>
               <md-card-header>
@@ -77,13 +83,14 @@ export default {
     },
     main: [],
     editor: null,
-    html: ''
+    generating: false
   }),
   methods: {
     onCancel () {
       this.$emit('cancel')
     },
     onGenerateDocumentClicked () {
+      this.generating = true
       this.header.text = ''
       this.main = []
       this.items.forEach((item, i) => {
@@ -94,7 +101,6 @@ export default {
           allowTaint: true
         }).then(canvas => {
           columns.push({
-            width: 'auto',
             stack: [
               {
                 qr: `www.dedalesecurite.com/verify/${item.id}`,
@@ -102,6 +108,7 @@ export default {
               },
               {
                 image: canvas.toDataURL(),
+                width: 500,
                 pageBreak: 'after'
               }
             ]
@@ -110,6 +117,8 @@ export default {
           if (i === this.items.length - 1) {
             this.docDefinition.content = [this.header, this.main]
             pdfMake.createPdf(this.docDefinition).open({}, window.frames['printPdf'])
+            this.editor.setContents({})
+            this.generating = false
           }
         })
       })
@@ -123,6 +132,7 @@ export default {
       this.editor.setContents(delta)
     },
     onGenerateQrCodeClicked () {
+      this.generating = true
       this.header.text = this.templateNom
       this.main = []
       let columns = []
@@ -141,6 +151,7 @@ export default {
       })
       this.docDefinition.content = [this.header, this.main]
       pdfMake.createPdf(this.docDefinition).open({}, window.frames['printPdf'])
+      this.generating = false
     }
   }
 }
@@ -166,6 +177,6 @@ export default {
     min-height: 30vh;
   }
   #canvas {
-    background-color: blue;
+    padding: 5px;
   }
 </style>
