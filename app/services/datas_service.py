@@ -57,7 +57,7 @@ class DatasService:
 
     @staticmethod
     def get_list(template_id=None):
-        return DatasModel.objects()
+        return DatasModel.objects(template_id=template_id)
 
     @staticmethod
     def count():
