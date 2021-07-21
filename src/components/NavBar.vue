@@ -12,12 +12,16 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
           </ul>
-          <router-link to="login">
+          <router-link v-if="!loggedin" to="login">
             <button class="btn btn-lg" type="button">Login</button>
           </router-link>
 
-          <router-link to="registration">
+          <router-link v-if="!loggedin" to="registration">
             <b-button pill size="lg" variant="primary" type="button">Sign Up</b-button>
+          </router-link>
+
+          <router-link v-if="loggedin" to="dashboard">
+            <b-button pill size="lg" variant="primary" type="button">Dashboard</b-button>
           </router-link>
         </div>
       </div>
@@ -27,10 +31,12 @@
 
 <script>
 export default {
-  name: 'NavBar'
+  name: 'NavBar',
+  computed: {
+    loggedin () {
+      if (this.$store.state.token) return true
+      return false
+    }
+  }
 }
 </script>
-
-<style>
-
-</style>
