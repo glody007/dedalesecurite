@@ -70,6 +70,8 @@ class TemplateService:
 
     @staticmethod
     def get_list(user_id=None):
+        if user_id:
+            return TemplateModel.objects(creator_id=user_id)
         return TemplateModel.objects()
 
     @staticmethod

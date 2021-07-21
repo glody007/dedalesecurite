@@ -30,7 +30,8 @@ class TemplateList(Resource):
     @api_rest.marshal_with(template_list_fields)
     @api_rest.response(200, 'Success', template_list_fields)
     def get(self):
-        return {'templates' : TemplateService.get_list()}, 200
+        user_id = UserService.get_id(request.headers.get('X-API-KEY'))
+        return {'templates' : TemplateService.get_list(user_id)}, 200
 
     @api_rest.marshal_with(response_post_template_fields)
     @api_rest.doc(security='apiKey')
