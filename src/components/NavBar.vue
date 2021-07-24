@@ -13,11 +13,11 @@
 
           </ul>
           <router-link v-if="!loggedin" to="login">
-            <button class="btn btn-lg" type="button">Login</button>
+            <button class="btn btn-lg" type="button">Connexion</button>
           </router-link>
 
           <router-link v-if="!loggedin" to="registration">
-            <b-button pill size="lg" variant="primary" type="button">Sign Up</b-button>
+            <b-button pill size="lg" variant="primary" type="button">Enregistrement</b-button>
           </router-link>
 
           <router-link v-if="loggedin" to="dashboard">
