@@ -140,13 +140,6 @@
         <b-row align-h="center">
           <b-col col cols="12" class="text-center">
             <p class="footer-body">
-              Dedale security 2021
-            </p>
-          </b-col>
-        </b-row>
-        <b-row align-h="center">
-          <b-col col cols="12" class="text-center">
-            <p class="footer-body">
               &copy; Dedale security 2021
             </p>
           </b-col>
