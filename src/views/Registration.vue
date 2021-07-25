@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar/>
-    <b-row>
+    <b-row class="background">
       <b-col md="4" offset-md="4" sm="6" offset-sm="3" cols="10" offset="1">
         <b-card title="Registration" class="px-3">
           <b-form novalidate @submit="onSubmit" @reset="onReset">
@@ -220,5 +220,8 @@ export default {
 </script>
 
 <style lang="scss">
-
+.background {
+  min-height: 100vh;
+  background-image: url('~@/assets/img/fond.svg');
+}
 </style>

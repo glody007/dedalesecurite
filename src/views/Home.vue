@@ -5,7 +5,7 @@
     <div class="main">
       <b-container>
         <b-row align-h="center" class="first-section">
-          <img src="@/assets/img/fond.svg" class="background" alt="background">
+          <img src="@/assets/img/fond.svg" class="background-image" alt="background">
           <b-col col cols="12" md="10" class="text-center">
             <h2>Securisez vos documents et rendez la vérification instantanée avec un QR Code</h2>
           </b-col>
@@ -125,7 +125,7 @@
             <b-row align-h="center">
               <h3 class="footer-title">Company</h3>
             </b-row>
-            <p class="footer-body">Dedale</p>
+            <p class="footer-body">Dedale security</p>
           </b-col>
           <b-col col cols="4" class="text-center">
             <b-row align-h="center">
@@ -133,7 +133,14 @@
             </b-row>
             <p class="footer-body">
               dedalesecurite@gmail.com <br>
-              +243 9970 28 901
+              &copy; +243 9970 28 901
+            </p>
+          </b-col>
+        </b-row>
+        <b-row align-h="center">
+          <b-col col cols="12" class="text-center">
+            <p class="footer-body">
+              &copy; Dedale security 2021
             </p>
           </b-col>
         </b-row>
@@ -161,9 +168,10 @@ export default {
     overflow: hidden;
     position: relative;
   }
-  .background {
+  .background-image {
     position: absolute;
     opacity: 0.3;
+    min-height: 500px
   }
   .register {
     width: 300px;

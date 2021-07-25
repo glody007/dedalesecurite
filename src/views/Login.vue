@@ -1,8 +1,8 @@
 <template>
   <div>
-    <NavBar class="mb-5"/>
-    <b-row>
-      <b-col md="4" offset-md="4" sm="6" offset-sm="3" cols="10" offset="1">
+    <NavBar />
+    <b-row class="background">
+      <b-col class="mt-5" md="4" offset-md="4" sm="6" offset-sm="3" cols="10" offset="1">
         <b-card title="Login" class="py-3 px-3">
           <b-form novalidate @submit="onSubmit" @reset="onReset">
             <b-form-group
@@ -122,5 +122,8 @@ export default {
 </script>
 
 <style lang="scss">
-
+.background {
+  min-height: 100vh;
+  background-image: url('~@/assets/img/fond.svg');
+}
 </style>
