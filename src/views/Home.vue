@@ -5,10 +5,11 @@
     <div class="main">
       <b-container>
         <b-row align-h="center" class="first-section">
+          <img src="@/assets/img/fond.svg" class="background" alt="background">
           <b-col col cols="12" md="10" class="text-center">
             <h2>Securisez vos documents et rendez la vérification instantanée avec un QR Code</h2>
           </b-col>
-          <b-col col cols="6" class="text-center">
+          <b-col col cols="12" class="text-center">
             <router-link to="registration">
               <b-button class="register" variant="primary" type="button">Enregistrement</b-button>
             </router-link>
@@ -102,7 +103,7 @@
         </b-row>
 
         <b-row align-h="center" class="my-5">
-          <b-col col cols="4" class="text-center">
+          <b-col col cols="12" class="text-center">
             <router-link to="registration">
               <b-button class="register" variant="primary" type="button">Enregistrement</b-button>
             </router-link>
@@ -124,7 +125,7 @@
             <b-row align-h="center">
               <h3 class="footer-title">Company</h3>
             </b-row>
-            <p class="footer-body">Hackiri</p>
+            <p class="footer-body">Dedale</p>
           </b-col>
           <b-col col cols="4" class="text-center">
             <b-row align-h="center">
@@ -157,11 +158,18 @@ export default {
   .first-section {
     min-height: 70vh;
     margin-bottom: 10vh;
+    overflow: hidden;
+    position: relative;
+  }
+  .background {
+    position: absolute;
+    opacity: 0.3;
   }
   .register {
     width: 300px;
     height: 100px;
-    font-size: 20px;
+    font-size: 30px;
+    position: relative;
   }
   h2 {
     font-size: 50px;
