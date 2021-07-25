@@ -133,14 +133,14 @@
             </b-row>
             <p class="footer-body">
               dedalesecurite@gmail.com <br>
-              &copy; +243 9970 28 901
+              +243 9970 28 901
             </p>
           </b-col>
         </b-row>
         <b-row align-h="center">
           <b-col col cols="12" class="text-center">
             <p class="footer-body">
-              &copy; Dedale security 2021
+              Dedale security 2021
             </p>
           </b-col>
         </b-row>
