@@ -46,6 +46,9 @@
       <span>Une erreur est survenue!</span>
       <md-button class="md-primary" @click="fetchTemplate">réessayez</md-button>
     </md-snackbar>
+    <md-snackbar md-position="center" :md-duration="4000" :md-active.sync="errorSwitch" md-persistent>
+      <span>Une erreur est survenue! réessayez</span>
+    </md-snackbar>
   </div>
 </template>
 
@@ -66,7 +69,8 @@ export default {
     },
     loading: true,
     error: true,
-    templateProtected: true
+    errorSwitch: false,
+    templateProtected: false
   }),
   components: {
     Title, TemplateDocument, Datas, DocumentQrCode
@@ -79,7 +83,19 @@ export default {
   },
   methods: {
     onSwitch () {
-      console.log(this.templateProtected)
+      this.loading = true
+      this.errorSwitch = false
+      $backend.setTemplateProtection(this.$route.params.id, {
+        protected: this.templateProtected
+      })
+        .then(response => {
+          this.loading = false
+        })
+        .catch(error => {
+          console.log(error)
+          this.errorSwitch = true
+          this.loading = false
+        })
     },
     fetchTemplate () {
       this.loading = true
@@ -88,6 +104,7 @@ export default {
         .then(response => {
           this.loading = false
           this.template = response.data
+          this.templateProtected = this.template.protected
         })
         .catch(error => {
           console.log(error)

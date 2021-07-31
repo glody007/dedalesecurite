@@ -41,6 +41,9 @@ export default {
   fetchTemplate (id) {
     return $axios.get(`/template/${id}`)
   },
+  setTemplateProtection (templateId, data) {
+    return $axios.post(`/template/${templateId}/set-protected`, data)
+  },
   createTemplate (data) {
     return $axios.post(`/templates`, data)
   },
