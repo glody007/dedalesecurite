@@ -69,6 +69,14 @@ class TemplateService:
             template.update(data)
 
     @staticmethod
+    def set_protected_or(id, data, callback):
+        template = TemplateService.get(id)
+        if template == None:
+            callback()
+        else:
+            template.set_protected(data)
+
+    @staticmethod
     def get_list(user_id=None):
         if user_id:
             return TemplateModel.objects(creator_id=user_id)
