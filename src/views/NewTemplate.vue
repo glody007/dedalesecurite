@@ -11,23 +11,22 @@
         </div>
 
         <div class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
-        </div>
-
-        <div class="button-save md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
-          <div class="text-center mt-4" v-if="loading">
-            <b-spinner variant="primary"></b-spinner>
+          <div class="button-save md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+            <div class="text-center mt-4" v-if="loading">
+              <b-spinner variant="primary"></b-spinner>
+            </div>
+            <md-button
+              v-else
+              @click="createTemplate"
+              :disabled="!templateNameValidated"
+              class="md-alignment-center-left
+              button-save md-raised
+              md-primary
+              register-button">
+              <md-icon>save_alt</md-icon>
+              Enregistrer le template
+            </md-button>
           </div>
-          <md-button
-            v-else
-            @click="createTemplate"
-            :disabled="!templateNameValidated"
-            class="md-alignment-center-left
-            button-save md-raised
-            md-primary
-            register-button">
-            <md-icon>save_alt</md-icon>
-            Enregistrer le template
-          </md-button>
         </div>
       </div>
       <div class="md-layout md-gutter">

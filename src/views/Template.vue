@@ -1,6 +1,15 @@
 <template>
   <div class="container">
-    <Title :text="template.nom" />
+    <div class="md-layout md-gutter ">
+      <div class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+        <span class="md-title title">Template</span>
+      </div>
+
+      <div class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+        <md-switch @change="onSwitch" v-model="templateProtected">templateProtected</md-switch>
+      </div>
+    </div>
+
     <div v-if="loading" class="md-layout-item md-xsmall-size-100">
       <div class="text-center mt-4">
         <b-spinner variant="primary"></b-spinner>
@@ -56,7 +65,8 @@ export default {
       datas_model: '{}'
     },
     loading: true,
-    error: true
+    error: true,
+    templateProtected: true
   }),
   components: {
     Title, TemplateDocument, Datas, DocumentQrCode
@@ -68,6 +78,9 @@ export default {
     '$route': 'fetchTemplate'
   },
   methods: {
+    onSwitch () {
+      console.log(this.templateProtected)
+    },
     fetchTemplate () {
       this.loading = true
       this.error = false
@@ -97,5 +110,10 @@ export default {
     padding-right: 0px;
     padding-left: 0px;
     min-height: 100vh;
+  }
+  .title {
+    display: flex;
+    margin-top: 10px;
+    margin-left: 16px;
   }
 </style>
