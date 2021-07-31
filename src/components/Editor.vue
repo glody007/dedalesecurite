@@ -1,5 +1,16 @@
 <template>
   <div id="main container">
+    <div class="md-layout md-gutter ">
+      <div class="button-save md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+        <md-button
+          @click="addData"
+          class="md-alignment-center-left
+          button-save md-raised
+          md-primary">
+          Substituant simple
+         </md-button>
+      </div>
+    </div>
     <div ref="quill"></div>
   </div>
 </template>
@@ -60,7 +71,6 @@ export default {
         datas: this.getDatas() })
     })
     this.editor.getModule('toolbar').addHandler('image', this.selectLocalImage)
-    this.editor.getModule('toolbar').addHandler('code-block', this.addData)
   },
   methods: {
     saveToServer (file) {
