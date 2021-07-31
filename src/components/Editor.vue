@@ -10,6 +10,15 @@
           Substituant simple
          </md-button>
       </div>
+      <div class="button-save md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+         <md-button
+           @click="addSecurized"
+           class="md-alignment-center-left
+           button-save md-raised
+           md-accent">
+           Substituant sécurisé
+          </md-button>
+      </div>
     </div>
     <div ref="quill"></div>
   </div>
@@ -84,15 +93,21 @@ export default {
       let value = prompt('Entrer le nom de votre substituant')
       this.editor.insertEmbed(range.index, 'data', value)
     },
+    addSecurized () {
+      const range = this.editor.getSelection()
+      let value = prompt('Entrer le nom de votre substituant sécurisé')
+      this.editor.insertEmbed(range.index, 'securised', value)
+    },
     getDatas () {
       const delta = this.editor.getContents()
       const datas = {}
       delta
         .filter((op) => {
-          return op.insert.data
+          return op.insert.data || op.insert.securised
         })
         .map((op) => {
-          datas[op.insert.data] = 'string'
+          if (op.insert.data) datas[op.insert.data] = 'string'
+          else datas[op.insert.securised] = 'string'
         })
       return JSON.stringify(datas)
     },
@@ -127,6 +142,12 @@ export default {
 .data {
   color: white;
   background-color: blue;
+  padding: 4px;
+  border-radius: 2px;
+}
+.securised {
+  color: white;
+  background-color: red;
   padding: 4px;
   border-radius: 2px;
 }
