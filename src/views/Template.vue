@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div v-if="loading" class="md-layout-item md-xsmall-size-100">
+    <div v-if="loading || loadingListDatas" class="md-layout-item md-xsmall-size-100">
       <div class="text-center mt-4">
         <b-spinner variant="primary"></b-spinner>
       </div>
@@ -28,14 +28,21 @@
           <md-tab id="tab-datas" md-label="Donnees">
             <div class="md-layout">
               <div class="md-layout-item md-medium-size-80 md-small-size-80 md-xsmall-size-33">
-                <Datas :template="template" class="element"/>
+                <Datas
+                  :template="template"
+                  :listDatas="listDatas"
+                  @fetchListDatas="fetchListDatas"
+                  class="element"/>
               </div>
             </div>
           </md-tab>
           <md-tab id="tab-qr-code" md-label="Documents et QR Codes">
             <div class="md-layout">
               <div class="md-layout-item md-medium-size-80 md-small-size-80 md-xsmall-size-33">
-                <DocumentQrCode :template="template" class="element"/>
+                <DocumentQrCode
+                  :template="template"
+                  :listDatas="listDatas"
+                  class="element"/>
               </div>
             </div>
           </md-tab>
@@ -68,18 +75,20 @@ export default {
       datas_model: '{}'
     },
     loading: true,
+    loadingListDatas: true,
     error: true,
     errorSwitch: false,
-    templateProtected: false
+    templateProtected: false,
+    listDatas: []
   }),
   components: {
     Title, TemplateDocument, Datas, DocumentQrCode
   },
   created () {
-    this.fetchTemplate()
+    this.fetchTemplateAndDatas()
   },
   watch: {
-    '$route': 'fetchTemplate'
+    '$route': 'fetchTemplateAndDatas'
   },
   methods: {
     onSwitch () {
@@ -97,10 +106,16 @@ export default {
           this.loading = false
         })
     },
+    fetchTemplateAndDatas () {
+      this.fetchTemplate()
+        .then(response => {
+          this.fetchListDatas()
+        })
+    },
     fetchTemplate () {
       this.loading = true
       this.error = false
-      $backend.fetchTemplate(this.$route.params.id)
+      return $backend.fetchTemplate(this.$route.params.id)
         .then(response => {
           this.loading = false
           this.template = response.data
@@ -110,6 +125,28 @@ export default {
           console.log(error)
           this.error = true
           this.loading = false
+        })
+    },
+    fetchListDatas () {
+      this.loadingListDatas = true
+      this.error = false
+      $backend.fetchListDatas(this.template.id)
+        .then(response => {
+          this.loading = false
+          return response.data['list datas'].map((element) => {
+            const values = JSON.parse(element.values)
+            values.id = element.id
+            return values
+          })
+        })
+        .then(datas => {
+          this.loadingListDatas = false
+          this.listDatas = datas
+        })
+        .catch(error => {
+          console.log(error)
+          this.error = true
+          this.loadingListDatas = false
         })
     }
   }

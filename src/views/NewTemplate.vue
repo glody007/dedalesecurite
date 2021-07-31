@@ -11,7 +11,7 @@
         </div>
 
         <div class="md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
-          <div class="button-save md-layout-item md-medium-size-33 md-small-size-50 md-xsmall-size-100">
+          <div class="button-save md-layout-item  md-xsmall-size-100">
             <div class="text-center mt-4" v-if="loading">
               <b-spinner variant="primary"></b-spinner>
             </div>
