@@ -107,7 +107,7 @@ export default {
         })
         .map((op) => {
           if (op.insert.data) datas[op.insert.data] = 'string'
-          else datas[op.insert.securised] = 'string'
+          else datas[op.insert.securised] = 'securised'
         })
       return JSON.stringify(datas)
     },

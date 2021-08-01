@@ -7,6 +7,7 @@ import Dashboard from './views/Dashboard.vue'
 import NewTemplate from './views/NewTemplate.vue'
 import ListTemplates from './views/ListTemplates.vue'
 import Template from './views/Template.vue'
+import Verification from './views/Verification.vue'
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ const router = new Router({
       path: '/registration',
       name: 'registration',
       component: Registration
+    },
+    {
+      path: '/verification/:id',
+      name: 'verification',
+      component: Verification
     },
     {
       path: '/dashboard',
@@ -54,7 +60,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
-  if ((to.name !== 'home' && to.name !== 'login' && to.name !== 'registration') && !token) {
+  if ((to.name !== 'home' && to.name !== 'login' && to.name !== 'registration' && to.name !== 'verification') && !token) {
     next({ name: 'login' })
   } else next()
 })

@@ -50,6 +50,9 @@ export default {
   fetchListDatas (templateId) {
     return $axios.get(`/templates/${templateId}/list-datas`)
   },
+  fetchVerification (datasId) {
+    return $axios.get(`/datas/${datasId}/verification`)
+  },
   createDatas (templateId, data) {
     return $axios.post(`/templates/${templateId}/list-datas`, data)
   }

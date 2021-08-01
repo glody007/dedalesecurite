@@ -12,15 +12,15 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
           </ul>
-          <router-link v-if="!loggedin" to="login">
+          <router-link v-if="!loggedin" :to="{ name: 'login' }">
             <button class="btn btn-lg" type="button">Connexion</button>
           </router-link>
 
-          <router-link v-if="!loggedin" to="registration">
+          <router-link v-if="!loggedin" :to="{ name: 'registration' }">
             <b-button pill size="lg" variant="primary" type="button">Enregistrement</b-button>
           </router-link>
 
-          <router-link v-if="loggedin" to="dashboard">
+          <router-link v-if="loggedin" :to="{ name: 'dashboard' }">
             <b-button pill size="lg" variant="primary" type="button">Dashboard</b-button>
           </router-link>
         </div>

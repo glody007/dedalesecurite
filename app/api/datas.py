@@ -6,6 +6,7 @@ from .resource_type import ResourceType
 from ..services import TemplateService
 from ..services import UserService
 from ..services import DatasService
+from .template import template_fields
 from .validation import *
 from .security import require_auth
 
@@ -13,6 +14,12 @@ datas_fields = api_rest.model('Datas', {
     'id': fields.String(attribute=lambda x: str(x.id)),
     'values': fields.String(required=True, min_length=1),
     'template_id': fields.String()
+})
+
+verification_fields = api_rest.model('Verification', {
+    'can_view': fields.Boolean(),
+    'datas': fields.Nested(datas_fields),
+    'template': fields.Nested(template_fields)
 })
 
 datas_list_fields = api_rest.model('DatasList', {
@@ -42,6 +49,19 @@ class DatasList(Resource):
         user_id = UserService.get_id(request.headers.get('X-API-KEY'))
         datas = TemplateService.add_datas(request.json, template_id)
         return {'result': 'success', 'datas': datas}, 201
+
+@api_rest.route('/datas/<datas_id>/verification')
+class Verification(Resource):
+    @api_rest.doc(security='apiKey')
+    @api_rest.marshal_with(verification_fields)
+    @api_rest.response(200, 'Success', datas_fields)
+    @api_rest.response(404, 'Ressource not found')
+    @validate_ObjectId_or_404('datas_id')
+    def get(self, datas_id):
+        datas = DatasService.get_or(datas_id, abort_404)
+        template = TemplateService.get(datas.template_id)
+        user_id = UserService.get_id(request.headers.get('X-API-KEY'))
+        return {'can_view': user_id==template.creator_id, 'datas': datas, 'template': template}, 200
 
 @api_rest.route('/datas/<datas_id>')
 class Datas(Resource):
