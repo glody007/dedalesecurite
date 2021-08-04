@@ -9,7 +9,7 @@ def init_db():
     from flask import current_app
 
     if current_app.config['TESTING']:
-        connect(host=current_app.config['DB_TEST_URI'])
+        connect(host=current_app.config['DB_TEST_URI'], alias='test')
     else:
         connect(host=current_app.config['DB_URI'], alias='default')
         User.register_admin({'nom': current_app.config['ADMIN_NAME'],
