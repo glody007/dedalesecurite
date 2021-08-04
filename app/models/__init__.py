@@ -11,7 +11,7 @@ def init_db():
     if current_app.config['TESTING']:
         connect(host=current_app.config['DB_TEST_URI'])
     else:
-        connect(host=current_app.config['DB_URI'])
+        connect(host=current_app.config['DB_URI'], alias='default')
         User.register_admin({'nom': current_app.config['ADMIN_NAME'],
                              'phone_number': current_app.config['ADMIN_NUMBER'],
                              'email': current_app.config['ADMIN_EMAIL'],
