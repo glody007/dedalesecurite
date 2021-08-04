@@ -8,11 +8,8 @@ from .datas_model import *
 def init_db():
     from flask import current_app
 
-    if current_app.config['TESTING']:
-        connect(host=current_app.config['DB_TEST_URI'], alias='test')
-    else:
-        connect(host=current_app.config['DB_URI'], alias='default')
-        User.register_admin({'nom': current_app.config['ADMIN_NAME'],
-                             'phone_number': current_app.config['ADMIN_NUMBER'],
-                             'email': current_app.config['ADMIN_EMAIL'],
-                             'password': current_app.config['ADMIN_PASSWORD']})
+    connect(host=current_app.config['DB_URI'], alias='default')
+    User.register_admin({'nom': current_app.config['ADMIN_NAME'],
+                         'phone_number': current_app.config['ADMIN_NUMBER'],
+                         'email': current_app.config['ADMIN_EMAIL'],
+                         'password': current_app.config['ADMIN_PASSWORD']})
