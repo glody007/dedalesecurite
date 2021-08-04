@@ -66,7 +66,6 @@ export default {
         .then(response => {
           this.loading = false
           this.parse(response.data)
-          this.showInfos()
         })
         .catch(error => {
           console.log(error)
