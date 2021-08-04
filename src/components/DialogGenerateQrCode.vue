@@ -103,7 +103,7 @@ export default {
           columns.push({
             stack: [
               {
-                qr: `www.dedalesecurite.com/verify/${item.id}`,
+                qr: `https://dedalesecurite.herokuapp.com/#/verification/${item.id}`,
                 style: 'qrcodedoc'
               },
               {
@@ -144,7 +144,7 @@ export default {
         columns.push({
           width: 'auto',
           stack: [
-            { qr: `www.dedalesecurite.com/#/verification/${item.id}`, style: 'qrcode' },
+            { qr: `https://dedalesecurite.herokuapp.com/#/verification/${item.id}`, style: 'qrcode' },
             { text: item[this.keys[0]], style: 'subheader' }
           ]
         })
