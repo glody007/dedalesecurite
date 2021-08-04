@@ -24,3 +24,5 @@ def get_app():
     with app.app_context():
         init_db()
     return app
+
+app = get_app()
